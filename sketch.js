@@ -16,7 +16,7 @@ var bg;
 
 var cloudGroup, cloudImage;
 
-var pipeNorth, pipeSouth;
+var pipeNorth, pipeSouth, ObstaclesNorth;
 
 var score = 0;
 var obstacle;
@@ -91,6 +91,7 @@ function setup() {
     invisibleGround.visible = false;
 
     cloudsGroup = new Group();
+    ObstaclesNorth = new Group();
     obsticalGroup = new Group();
 
     score = 0;
@@ -119,7 +120,7 @@ function draw() {
 
         bat.collide(invisibleGround);
 
-        if (ground.isTouching(bat)) {
+        if (obsticalGroup.isTouching(bat)) {
             gameState = END;
         }
     } else if (gameState === END) {
@@ -139,6 +140,9 @@ function draw() {
         if (mousePressedOver(restart)) {
             reset();
         }
+    }
+    if (ground.isTouching(bat)){
+        gameState = END;
     }
     
 
@@ -167,7 +171,7 @@ function spawnObstaclesNorth() {
     if (frameCount % 20 === 0) {
         var rand = Math.round(random(10, 100));
         obstacle = createSprite(1300, 475, 20, rand);
-        obstacle.setCollider("circle", 0, 0, 45);
+        bat.setCollider("circle", 0, -50, 50);
         // obstacle.debug = true
 
         obstacle.velocityX = -(6 + score / 100);
@@ -175,29 +179,29 @@ function spawnObstaclesNorth() {
         switch (rand1) {
             case 1:
                 obstacle.addImage("pipeSouth", pipeSouthImg);
-                obstacle.scale = random(0.7, 1);
+                obstacle.scale = random(1.8,1.6,2.5);
                 break;
             case 2:
                 obstacle.addImage("red", redPipeImg);
-                obstacle.scale = random(0.8, 2);
+                obstacle.scale = random(1.8,1,3,3.9);
                 break;
             case 3:
                 obstacle.addImage("blue", bluePipeImg);
-                obstacle.scale = random(0.8, 2);
+                obstacle.scale = random(1.8,2,3,3.9);
                 break;
             case 4:
                 obstacle.addImage(" yellow", yellowPipeImg);
-                obstacle.scale = random(0.8, 2);
+                obstacle.scale = random(1.8,2,3,3.9);
                 break;
             case 5:
                 obstacle.addImage(" green", greenPipeImg);
-                obstacle.scale = random(0.8, 2);
+                obstacle.scale = random(1.8,2,3,3.9);
                 break;
             default:
                 break;
         }
 
-        if (obstacle.isTouching(bat)) {
+        if (obsticalGroup.isTouching(bat)) {
             gameState = END;
         }
         //assign scale and lifetime to the obstacle
